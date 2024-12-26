@@ -5,20 +5,18 @@ THRESHOLD_CPU=75
 THRESHOLD_MEM=75
 THRESHOLD_DISK=90
 
-# Colors for terminal output
+
 GREEN="\033[0;32m"
 YELLOW="\033[1;33m"
 RED="\033[0;31m"
 NC="\033[0m" # No Color
 
-# Function to send desktop notifications
 send_notification() {
     MESSAGE=$1
     LEVEL=$2
     notify-send -u $LEVEL "System Health Alert" "$MESSAGE"
 }
 
-# Function to check CPU usage
 check_cpu() {
     CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | awk '{print $2 + $4}')
     echo "CPU Usage: $CPU_USAGE%" >> $LOGFILE
@@ -33,7 +31,6 @@ check_cpu() {
     return 0
 }
 
-# Function to check Memory usage
 check_memory() {
     MEM_USAGE=$(free | grep Mem | awk '{print $3/$2 * 100.0}')
     echo "Memory Usage: $MEM_USAGE%" >> $LOGFILE
@@ -48,7 +45,6 @@ check_memory() {
     return 0
 }
 
-# Function to check Disk usage
 check_disk() {
     DISK_USAGE=$(df / | tail -1 | awk '{print $5}' | sed 's/%//')
     echo "Disk Usage: $DISK_USAGE%" >> $LOGFILE
@@ -62,7 +58,7 @@ check_disk() {
     return 0
 }
 
-# Main script execution
+
 echo "System Health Monitor - $(date)" >> $LOGFILE
 echo -e "${YELLOW}Checking System Health...${NC}"
 
